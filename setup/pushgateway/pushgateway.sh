@@ -3,10 +3,10 @@
 # Define variables
 KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
 NAMESPACE="monitoring"
-PUSHGATEWAY_MANIFEST="/home/mgmt/edge-infrastructure-ansible-main/setup/pushgateway/pushgateway.yaml"
+PUSHGATEWAY_MANIFEST="/home/mgmt/project_cloud-main/setup/pushgateway/pushgateway.yaml"
 HELM_RELEASE_NAME="prometheus"
 HELM_CHART="prometheus-community/kube-prometheus-stack"
-VALUES_FILE="/home/mgmt/edge-infrastructure-ansible-main/setup/pushgateway/values.yaml"
+VALUES_FILE="/home/mgmt/project_cloud-main/setup/pushgateway/values.yaml"
 
 # Step 0: Install yq if not already installed
 echo "Checking if yq is installed..."

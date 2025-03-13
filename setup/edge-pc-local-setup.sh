@@ -236,7 +236,7 @@ echo -n "Downloading Ansible script.."
 cd /home/mgmt/
 
 
-curl -LO https://github.com/netgroup-polito/edge-infrastructure-ansible/archive/refs/heads/main.zip
+curl -LO https://github.com/Aleint/project_cloud/archive/refs/heads/main.zip
 
 #Check repo installation outcome
 if [ $? -eq 0 ]; then
@@ -260,15 +260,15 @@ rm main.zip
 # If no arguments are provided, the script will assume that the user wants to install Liqo locally, without peering.
 # The second option could be useful for master node initialization.
 if [ $# -eq 3 ]; then
-  sed -i "s/<remote_target_ip>/$1/g" /home/mgmt/edge-infrastructure-ansible-main/inventory
-  sed -i "s/<remote_target_user>/$2/g" /home/mgmt/edge-infrastructure-ansible-main/inventory
-  sed -i "s/<remote_target_password>/$3/g" /home/mgmt/edge-infrastructure-ansible-main/inventory
-  sed -i "s/<remote_target_ip>/$1/g" /home/mgmt/edge-infrastructure-ansible-main/playbook/roles/liqo-get-kubeconfig-remote/vars/main.yaml
-  sed -i "s/<remote_target_user>/$2/g" /home/mgmt/edge-infrastructure-ansible-main/playbook/roles/liqo-get-kubeconfig-remote/tasks/main.yaml
-  sed -i "s/<grafana_password>/$GRAFANA_PSW/g" /home/mgmt/edge-infrastructure-ansible-main/playbook/roles/energymon/files/values.yaml
+  sed -i "s/<remote_target_ip>/$1/g" /home/mgmt/project_cloud-main/inventory
+  sed -i "s/<remote_target_user>/$2/g" /home/mgmt/project_cloud-main/inventory
+  sed -i "s/<remote_target_password>/$3/g" /home/mgmt/project_cloud-main/inventory
+  sed -i "s/<remote_target_ip>/$1/g" /home/mgmt/project_cloud-main/playbook/roles/liqo-get-kubeconfig-remote/vars/main.yaml
+  sed -i "s/<remote_target_user>/$2/g" /home/mgmt/project_cloud-main/playbook/roles/liqo-get-kubeconfig-remote/tasks/main.yaml
+  sed -i "s/<grafana_password>/$GRAFANA_PSW/g" /home/mgmt/project_cloud-main/playbook/roles/energymon/files/values.yaml
 else
-  sed -i "s/^.*<remote_target_ip>/#&/g" /home/mgmt/edge-infrastructure-ansible-main/inventory
-  sed -i "s/<grafana_password>/$GRAFANA_PSW/g" /home/mgmt/edge-infrastructure-ansible-main/playbook/roles/energymon/files/values.yaml
+  sed -i "s/^.*<remote_target_ip>/#&/g" /home/mgmt/project_cloud-main/inventory
+  sed -i "s/<grafana_password>/$GRAFANA_PSW/g" /home/mgmt/project_cloud-main/playbook/roles/energymon/files/values.yaml
 fi
 
 
@@ -280,13 +280,13 @@ echo "Running Ansible script.."
 #This line is used to avoid to insert the mgmt sudo password to run the ansible script
 echo "mgmt ALL=(ALL) NOPASSWD:ALL" | EDITOR='tee -a' visudo
 
-runuser -l mgmt -c 'ansible-galaxy collection install -r /home/mgmt/edge-infrastructure-ansible-main/requirements.yml'
-runuser -l mgmt -c 'ansible-playbook /home/mgmt/edge-infrastructure-ansible-main/playbook/env_setup.yaml -i /home/mgmt/edge-infrastructure-ansible-main/inventory'
-runuser -l mgmt -c 'ansible-playbook /home/mgmt/edge-infrastructure-ansible-main/playbook/dashboard_deploy.yaml -i /home/mgmt/edge-infrastructure-ansible-main/inventory'
+runuser -l mgmt -c 'ansible-galaxy collection install -r /home/mgmt/project_cloud-main/requirements.yml'
+runuser -l mgmt -c 'ansible-playbook /home/mgmt/project_cloud-main/playbook/env_setup.yaml -i /home/mgmt/project_cloud-main/inventory'
+runuser -l mgmt -c 'ansible-playbook /home/mgmt/project_cloud-main/playbook/dashboard_deploy.yaml -i /home/mgmt/project_cloud-main/inventory'
 
 if [ $# -eq 3 ]; then
-  runuser -l mgmt -c 'ansible-playbook /home/mgmt/edge-infrastructure-ansible-main/playbook/liqo_incoming_peering.yaml -i /home/mgmt/edge-infrastructure-ansible-main/inventory'
-  runuser -l mgmt -c 'ansible-playbook /home/mgmt/edge-infrastructure-ansible-main/playbook/liqo_outgoing_peering.yaml -i /home/mgmt/edge-infrastructure-ansible-main/inventory'
+  runuser -l mgmt -c 'ansible-playbook /home/mgmt/project_cloud-main/playbook/liqo_incoming_peering.yaml -i /home/mgmt/project_cloud-main/inventory'
+  runuser -l mgmt -c 'ansible-playbook /home/mgmt/project_cloud-main/playbook/liqo_outgoing_peering.yaml -i /home/mgmt/project_cloud-main/inventory'
 fi
 
 ######################################

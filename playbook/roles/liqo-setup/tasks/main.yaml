@@ -10,20 +10,34 @@
     sudo mv liqoctl-linux-amd64 /usr/local/bin/liqoctl
   when: liqoctl_already_installed.rc != 0
 
-
 - name: Install liqoctl
   shell: 'sudo install -o root -g root -m 0755 liqoctl /usr/local/bin/liqoctl'
-  when: liqoctl_already_installed != 0
+  when: liqoctl_already_installed.rc != 0
 
 - name: Check if liqo is already installed
   shell: liqoctl version
   register: liqo_already_installed
   ignore_errors: true
 
+- name: Check if Network resource exists
+  shell: kubectl get network networks
+  register: network_resource
+  ignore_errors: true
+
+- name: Create Network resource for Liqo
+  shell: |
+    kubectl apply -f - <<EOF
+    apiVersion: ipam.liqo.io/v1alpha1
+    kind: Network
+    metadata:
+      name: networks
+    spec:
+      cidr: "10.42.0.0/16"
+      preAllocated: 100
+    EOF
+  when: network_resource.rc != 0
+
+
 - name: Install Liqo       
   shell: 'sudo liqoctl install k3s --kubeconfig=/etc/rancher/k3s/k3s.yaml --enable-metrics --set controllerManager.metrics.serviceMonitor.enabled=true --set metrics.prometheusOperator.enabled=true'
-  when: liqo_already_installed != 0
-
-- name: Delete prometheus pod to apply changes
-  command: kubectl delete pods -n monitoring prometheus-prometheus-kube-prometheus-prometheus-0
-  when: helm_prometheus_exists_result.rc != 0
+  when: liqo_already_installed.rc != 0

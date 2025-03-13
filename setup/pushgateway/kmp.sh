@@ -20,8 +20,8 @@ if [ -z "$LOCAL_IP" ]; then
 fi
 
 # Paths
-MANIFEST_PATH="/home/mgmt/edge-infrastructure-ansible-main/setup/pushgateway/kmp.yaml"
-PROCESSED_MANIFEST_PATH="/home/mgmt/edge-infrastructure-ansible-main/setup/pushgateway/processed_kmp.yaml"
+MANIFEST_PATH="/home/mgmt/project_cloud-main/setup/pushgateway/kmp.yaml"
+PROCESSED_MANIFEST_PATH="/home/mgmt/project_cloud-main/setup/pushgateway/processed_kmp.yaml"
 
 # Replace placeholders in the manifest
 echo "Replacing placeholders in the manifest..."
