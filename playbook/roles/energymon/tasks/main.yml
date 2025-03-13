@@ -1,0 +1,8 @@
+---
+
+- name: Prometheus and Grafana
+  ansible.builtin.import_tasks:
+    file: prometheus-grafana.yaml
+- name: Kepler
+  ansible.builtin.import_tasks:
+    file: kepler.yaml

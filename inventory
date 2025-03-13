@@ -1,0 +1,14 @@
+# -----------------------------
+# In this file, we define the hosts that we want to manage with Ansible.
+#
+# We can also define groups of hosts, and use these groups to apply configurations to multiple hosts at once.
+# 
+# [targets] is a group that contains all the hosts that we want to manage with Liqo in order to perform the peering.
+# -----------------------------
+
+[targets]
+localhost ansible_ssh_host=127.0.0.1 ansible_user=mgmt ansible_ssh_pass=root ansible_connection=local
+remote_node ansible_user=<remote_target_user> ansible_ssh_host=<remote_target_ip> ansible_ssh_pass=<remote_target_password> ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
