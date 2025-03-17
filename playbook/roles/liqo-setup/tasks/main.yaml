@@ -3,15 +3,6 @@
   register: liqoctl_already_installed
   ignore_errors: true
 
-- name: Create /tmp/.helmrepo as a file if not present
-  copy:
-    content: ""  
-    dest: /tmp/.helmrepo
-    owner: root
-    group: root
-    mode: '0777'
-  become: yes
-
 - name: Download and extract liqoctl
   shell: |
     curl -LO "https://github.com/liqotech/liqo/releases/download/v1.0.0/liqoctl-linux-amd64.tar.gz"
